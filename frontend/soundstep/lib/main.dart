@@ -19,7 +19,7 @@ class SoundStepApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color(0xFF111111),
-        textTheme: ThemeData.dark().textTheme.apply(fontSizeFactor: 1.1),
+        textTheme: ThemeData.dark().textTheme,
       ),
       home: const _Loader(),
     );
