@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:flutter/services.dart';
 import '../data/pois.dart';
 import '../engine/audio.dart';
 import '../engine/haptics.dart';
@@ -8,6 +9,8 @@ import '../data/route_map.dart';
 import 'arrived_screen.dart';
 import 'signal_lost_screen.dart';
 import 'destination_screen.dart';
+import 'bluetooth_required_screen.dart';
+import 'bluetooth_off_screen.dart';
 
 class NavigatingScreen extends StatefulWidget {
   final Poi poi;
@@ -55,12 +58,41 @@ class _NavigatingScreenState extends State<NavigatingScreen> {
       );
     };
 
-    _engine.start(widget.poi.code);
+    _startNavigation();
+  }
 
-    final msg = widget.lang == 'az'
-        ? '${widget.poi.nameAz} istiqamətində naviqasiya başladı. Addımlamağa başlayın.'
-        : 'Navigating to ${widget.poi.nameEn}. Please start walking.';
-    AudioEngine().speak(msg);
+  Future<void> _startNavigation() async {
+    try {
+      await _engine.start(widget.poi.code);
+
+      final msg = widget.lang == 'az'
+          ? '${widget.poi.nameAz} istiqamətində naviqasiya başladı. Addımlamağa başlayın.'
+          : 'Navigating to ${widget.poi.nameEn}. Please start walking.';
+      AudioEngine().speak(msg);
+    } on PlatformException catch (e) {
+      if (!mounted) return;
+      final code = e.code.toLowerCase();
+      // Map platform errors into either "Bluetooth off" or "permission blocked"
+      if (code.contains('poweredoff') || code.contains('bluetooth must be turned on')) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => BluetoothOffScreen(
+              poi: widget.poi,
+              lang: widget.lang,
+            ),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => BluetoothRequiredScreen(
+              poi: widget.poi,
+              lang: widget.lang,
+            ),
+          ),
+        );
+      }
+    }
   }
 
   @override

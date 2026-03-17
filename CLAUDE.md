@@ -382,6 +382,16 @@ Priority levels: **P0** = must have for go-live | **P1** = required | **P2** = n
 | P1 | Repeat instruction after 15s if no movement |
 | P1 | Destination change mid-route — re-lookup immediately, no restart |
 
+**Bluetooth / permission handling (current implementation):**
+- If Bluetooth adapter is **powered off** when starting navigation:
+  - Do not start scanning.
+  - Show a blocking "Bluetooth is Off" screen with TTS explaining that Bluetooth must be turned on and a large "Open Settings" button.
+  - When the user turns Bluetooth back on and returns, the app automatically resumes navigation from the current destination.
+- If Bluetooth permission for **SoundStep is denied / unauthorized**:
+  - Do not call the BLE scan API to avoid CoreBluetooth API misuse and OS kills.
+  - Show a "Bluetooth Permission Required" screen explaining that the user must enable Bluetooth for SoundStep in iOS Settings, then fully close and reopen the app before navigation can work.
+  - TODO (iOS / QA): flutter_blue_plus updates, re‑test whether we can safely support live recovery (no full app restart) after the user grants Bluetooth permission in Settings.
+
 #### Audio
 | Priority | Feature |
 |---|---|

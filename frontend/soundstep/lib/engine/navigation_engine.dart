@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import '../data/route_map.dart';
 import 'audio.dart';
@@ -52,6 +53,23 @@ class NavigationEngine {
       'happened_at': DateTime.now().toIso8601String(),
       'event': 'navigation_started',
     });
+
+    // Guard against bad adapter states before starting scan to avoid
+    // CoreBluetooth API misuse and OS kills.
+    final adapterState = await FlutterBluePlus.adapterState.first;
+    if (adapterState != BluetoothAdapterState.on) {
+      if (adapterState == BluetoothAdapterState.unauthorized) {
+        throw PlatformException(
+          code: 'bluetooth_unauthorized',
+          message: 'Bluetooth permission not granted',
+        );
+      } else {
+        throw PlatformException(
+          code: 'bluetooth_poweredoff',
+          message: 'Bluetooth must be turned on',
+        );
+      }
+    }
 
     await FlutterBluePlus.startScan(continuousUpdates: true);
 
