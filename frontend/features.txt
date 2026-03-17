@@ -1,0 +1,92 @@
+SOUNDSTEP — FEATURE IMPLEMENTATION STATUS
+==========================================
+Legend: [x] Done  [ ] Todo
+
+MOBILE APP
+──────────
+
+Onboarding
+  [x] Language selection screen (EN/AZ), spoken aloud, saved
+  [ ] Bluetooth permission request with voice explanation
+  [ ] Download POI + route map from backend on first open
+  [ ] Fallback to cached data if backend unreachable
+
+Destination Input
+  [x] Large auto-focused text field
+  [x] Live POI filtering (debounced 600ms)
+  [x] TTS announces result count
+  [x] UP/DOWN buttons — TTS reads each result
+  [x] Confirm button — enabled only when result selected
+  [x] Validation — TTS error if empty or not found
+  [x] Read all destinations button
+  [ ] Side button double-press → speaks full POI list
+
+Navigation Engine
+  [x] iBeacon parser (major:minor)
+  [x] RSSI smoothing (5-reading, drop min/max, average middle)
+  [x] Hysteresis (2s confirm before switching beacon)
+  [x] Stale beacon expiry (5s)
+  [x] Route lookup: beacon x destination → instruction
+  [x] Instruction fires once on beacon entry
+  [x] Off-route detection (sequence_order = null) → reroute instruction
+  [x] Signal lost after 30s
+  [x] Repeat instruction after 15s no movement
+  [x] Destination change mid-route (no restart)
+  [ ] BLE background scan — iOS Info.plist permissions
+  [ ] BLE background scan — Android Manifest permissions
+  [ ] Continuous BLE scan when screen is off / phone pocketed
+
+Audio
+  [x] TTS in EN (en-US) and AZ (az-AZ)
+  [x] Never interrupt a playing instruction
+  [ ] Shake phone → repeat last instruction
+  [ ] Volume auto-maximize on navigation start (with confirmation)
+  [ ] Earphone detection → route audio to earphones
+
+Haptics
+  [x] STRAIGHT — 1 long pulse
+  [x] RIGHT — 2 short pulses
+  [x] LEFT — 3 short pulses
+  [x] ARRIVED — 3s continuous
+  [x] SOS — 3 short 3 long 3 short
+
+Emergency
+  [x] Always-visible Help button on navigation screen
+  [x] SOS haptic on signal lost
+  [ ] Loud tone when offline + signal lost
+  [ ] Volume-down hold 3s → alert accessibility coordinator
+  [ ] Auto-notify coordinator when signal lost (if online)
+
+Accessibility
+  [x] Semantics labels on all interactive elements
+  [x] High contrast UI (#111 background, white text)
+  [x] Min font 18px, min button height 64px
+  [x] Tap only — no swipe/pinch gestures
+  [x] Screen always-on during navigation (wakelock)
+  [ ] Respects OS font size / accessibility settings
+
+Offline & Storage
+  [x] Device UUID generated on install, stored permanently
+  [x] Usage logs queued locally (max 500 entries)
+  [ ] Route map downloaded from backend + cached (currently hardcoded in Dart)
+  [ ] Batch sync usage logs to backend when online
+
+──────────────────────────────────────────
+BACKEND (Node.js + SQLite)
+──────────────────────────────────────────
+
+  [ ] GET  /api/pois        — full POI list
+  [ ] GET  /api/map         — full route instruction map
+  [ ] POST /api/logs        — receive batch usage logs
+  [ ] GET  /api/beacons     — beacon list + last_seen_at
+  [ ] PUT  /api/map/:id     — update single instruction
+  [ ] SQLite DB setup with schema.sql
+
+──────────────────────────────────────────
+ADMIN PANEL (React web)
+──────────────────────────────────────────
+
+  [ ] Edit route instructions (EN + AZ) inline
+  [ ] Beacon online/offline status view
+  [ ] Usage logs per POI per day (anonymous)
+  [ ] Single password protection
