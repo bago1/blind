@@ -341,6 +341,116 @@ Navigation itself is 100% offline.
 
 ---
 
+## Feature List with Priorities
+
+Priority levels: **P0** = must have for go-live | **P1** = required | **P2** = nice to have
+
+### Mobile App (Flutter)
+
+#### Onboarding
+| Priority | Feature |
+|---|---|
+| P0 | Language selection screen (EN / AZ) — spoken aloud, saved permanently |
+| P0 | Bluetooth permission request with voice explanation |
+| P0 | Full POI + route map downloaded and cached on first open |
+| P1 | Fallback to cached data if backend unreachable on open |
+
+#### Destination Input
+| Priority | Feature |
+|---|---|
+| P0 | Large auto-focused text field |
+| P0 | Live POI filtering as user types (debounced 600ms) |
+| P0 | TTS announces result count ("2 results found") |
+| P0 | UP/DOWN buttons to cycle results — TTS reads each name |
+| P0 | Confirm button — enabled only when result selected |
+| P0 | Validation — TTS error if not found or empty |
+| P1 | "Read all destinations" button — speaks full POI list |
+| P1 | Side button double-press → speaks full POI list |
+
+#### Navigation Engine
+| Priority | Feature |
+|---|---|
+| P0 | Continuous BLE scan (background, screen off, phone pocketed) |
+| P0 | iBeacon parser — identify beacons by major:minor |
+| P0 | RSSI smoothing (5-reading buffer, drop min/max, average middle) |
+| P0 | Hysteresis — switch nearest beacon only after 2s consistent signal |
+| P0 | Stale beacon expiry (5s no signal → removed from calculation) |
+| P0 | Route lookup: nearest beacon × destination → instruction |
+| P0 | Instruction fires once on beacon entry |
+| P0 | Off-route detection (sequence_order = NULL) → reroute instruction |
+| P0 | Signal lost after 30s → SOS alert |
+| P1 | Repeat instruction after 15s if no movement |
+| P1 | Destination change mid-route — re-lookup immediately, no restart |
+
+#### Audio
+| Priority | Feature |
+|---|---|
+| P0 | TTS in EN (en-US) and AZ (az-AZ) |
+| P0 | Never interrupt a playing instruction |
+| P0 | Shake phone → repeat last instruction |
+| P1 | Volume auto-maximize on navigation start (with confirmation) |
+| P1 | Earphone detection → route audio to earphones |
+
+#### Haptics
+| Priority | Feature |
+|---|---|
+| P0 | STRAIGHT — 1 long pulse [400ms] |
+| P0 | RIGHT — 2 short pulses [100,100,100,100] |
+| P0 | LEFT — 3 short pulses [100,100,100,100,100,100] |
+| P0 | ARRIVED — 3s continuous [3000ms] |
+| P0 | SOS — 3 short 3 long 3 short pattern |
+
+#### Emergency & Help
+| Priority | Feature |
+|---|---|
+| P0 | Always-visible full-width red Help button on navigation screen |
+| P0 | SOS haptic + loud tone when signal lost and offline |
+| P1 | Volume-down hold 3s → alert accessibility coordinator |
+| P1 | Signal lost → auto-notify coordinator if online |
+
+#### Accessibility
+| Priority | Feature |
+|---|---|
+| P0 | Full VoiceOver (iOS) + TalkBack (Android) labels on every element |
+| P0 | High contrast UI — #111 background, white text |
+| P0 | Min font 18px everywhere, min button height 64px |
+| P0 | Tap only — no swipe/pinch/drag gestures |
+| P0 | Screen always-on during navigation (wake lock) |
+| P1 | Respects OS font size / accessibility settings |
+
+#### Offline & Storage
+| Priority | Feature |
+|---|---|
+| P0 | Device UUID generated on install, stored permanently |
+| P0 | Full route map cached locally after first download |
+| P0 | Navigation works with zero internet |
+| P1 | Usage logs queued locally, batch-synced when online |
+
+---
+
+### Backend (Node.js + SQLite)
+
+| Priority | Feature |
+|---|---|
+| P0 | `GET /api/pois` — full POI list |
+| P0 | `GET /api/map` — full route instruction map |
+| P1 | `POST /api/logs` — receive batch usage logs from devices |
+| P1 | `GET /api/beacons` — beacon list + last_seen_at status |
+| P1 | `PUT /api/map/:id` — update single instruction (used by admin panel) |
+
+---
+
+### Admin Panel (React web)
+
+| Priority | Feature |
+|---|---|
+| P1 | Edit route instructions (EN + AZ) inline without app release |
+| P1 | Beacon online/offline status view |
+| P2 | Usage logs per POI per day — anonymous, for WUF reporting |
+| P1 | Single password protection |
+
+---
+
 ## Key Files
 
 | File | Purpose |
