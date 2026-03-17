@@ -6,6 +6,8 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+    <string>SoundStep uses Bluetooth to detect beacons and guide you through the venue.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Soundstep</string>
 	<key>CFBundleExecutable</key>
