@@ -1,0 +1,11 @@
+⏺ From the PDF, the mobile app must have:
+
+  1. Audio navigation — voice guidance at each beacon point
+  2. Vibration signals — haptic feedback at each point
+  3. On-demand activation — user triggers the signal (not automatic only)
+  4. Unique identification signals per location (no overlap)
+  5. Metadata per point — distance, direction, location type spoken aloud
+  6. Android + iOS support
+  7. English + Azerbaijani language selection
+  8. Stable operation in high crowd density
+  9. Signal interference prevention (no overlap between nearby beacons)

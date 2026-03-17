@@ -1,0 +1,7 @@
+- yolda qerarini deisse ne olacaq
+- internetsiz olacaq, ona gore de biz calisaq bun lari frontda tutaq. backend mehz data tutmaq ucundu. biz access pointleri ve s backendde saxlayiriq, ilk defe user proqrami acanda her sey yuklenmis olur ve qalir frontda.
+- biz frontda her defe sonuncu beakon datasini ve  hara getmek istediyini saxlayaq. evvelki hereketler mehz loggin ucundur. backende gerek yoxdur her defe gondermek
+- en yaxin olan beaconu teyin elemeliyik ki uzaqdaki bekonun siqnalini esas goturmesin, faktiki hansidirsa onub gotursun
+- case: user necese oldu next beaconu gormedi. meselen o kecmelidir b1,b2,b3,b4 amma b1,b2 kecdi ve b4 e catdi b3-u kecmedi. bu halda b4 son goturulur yene.
+- user b1,b2,b3,b4 kecmelidir, b1,b2 kecdi, sonra sehven c5-e getdi, biz onu o zaman yeniden c5-b4 routuna qaytarmaliyuq
+- be cms vermiyek, ozumuz manual kodda duzel
