@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Ali_ver.18_Lighter-Rounded";
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    src: url("https://st.aliexpress.ru/mixer-storage/fonts/corporate-fonts/ali/32/Ali-Bold.woff2")
+    format("woff2");
+}
+
+@font-face {
+    font-family: "Ali Font";
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    src: url("https://st.aliexpress.ru/mixer-storage/fonts/corporate-fonts/ali/32/Ali-Bold.woff2")
+    format("woff2");
+}
